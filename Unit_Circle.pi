@@ -1,0 +1,82 @@
+//unit circle simulation, user uses mouse to trace aroudn the unit circle, and gets value of sin, cos, tan of where it is on the unit circle
+import pygame
+import os
+
+scnw = 640
+scnh = 400
+screen = pygame.display.set_mode((scnw, scnh)) 
+
+clock = pygame.time.Clock()
+
+done = False
+pos2 = [0, 0]
+while not done:
+  #Colors:
+  for event in pygame.event.get():
+    if event.type == pygame.QUIT:
+      done = True
+  
+  WHITE = (255, 255, 255)
+  BLACK = (0, 0, 0)
+
+  screen.fill(WHITE)
+
+  #Draws coordinate plane
+  pygame.draw.line(screen, BLACK, [0, 155], [640, 155], 3) #x axis
+  pygame.draw.line(screen, BLACK, [300, 0], [300, 400], 3)
+  #y axis
+
+  #Draws the ticks on the X axis
+  for x in range(2, 300, 30):
+    pygame.draw.line(screen, BLACK, [x, 148], [x, 162], 3)
+
+  for x in range(327, 630, 30):
+    pygame.draw.line(screen, BLACK, [x, 148], [x, 162], 3)
+
+  #Writes the coords on the X axis
+  pygame.init() 
+  font = pygame.font.SysFont("Arial", 20)
+  text = font.render("-1", True, BLACK)
+  screen.blit(text, [140, 175])
+  text2 = font.render("1", True, BLACK)
+  screen.blit(text2, [443, 175])
+
+  #draws ticks on y axis
+  for x in range(9, 150, 30):  
+    pygame.draw.line(screen, BLACK, [293, x], [307, x], 3)
+  for x in range(300, 165, -27):  
+    pygame.draw.line(screen, BLACK, [293, x], [307, x], 3)
+
+  #Writes the coords on the Y axis
+  pygame.init() 
+  font = pygame.font.SysFont("Arial", 20)
+  text = font.render("1", True, BLACK)
+  screen.blit(text, [285, 7])
+  text2 = font.render("-1", True, BLACK)
+  screen.blit(text2, [275, 287])
+
+  #draws the circle
+  circle = pygame.draw.circle(screen, BLACK, [300, 155], 148, 2) 
+  
+  #gets position
+  pos = pygame.mouse.get_pos()
+  if pos2 != pos:
+    os.system('clear')
+    xcoor = (pos[0] - 300) / 148 
+    ycoor =  ((pos[1] - 155) / 148) * -1
+    print("The sine is:", ycoor)
+    print("The cosine is:", xcoor)
+    if xcoor != 0:
+      print("The tan is:", ycoor/xcoor)
+    else:
+      print("The tan is undefined")
+  pos2 = pos
+
+  #draws the unit circle line
+  pygame.draw.line(screen, BLACK, [300, 155], pos, 3)
+  
+  #if ((pos[0] - 300) ** 2 + (pos[1] - 155) ** 2) < 21905:
+   # print ("In")
+  
+  pygame.display.flip() 
+  clock.tick(15)
